@@ -13,6 +13,7 @@ const MainPage = () => {
     const [searchInput, setSearchInput] = useState("");
     const [moreSearchInput, setMoreSearchInput] = useState(searchInput);
     const [orderBy, setOrderBy] = useState('relevance');
+    const [categoryBy, setCategoryBy] = useState('');
     const dispatch = useDispatch()
     // const list = useSelector(state => state.fetchData.books)
     // const moreData = useSelector(state => state.fetchData.moreBooks)
@@ -24,15 +25,22 @@ const MainPage = () => {
       e.preventDefault()
       // dispatch(dataActions.fetchMoreBooks('clear'));
       setMoreSearchInput(searchInput)
-      dispatch(fetchingData(searchInput,orderBy))
+      dispatch(fetchingData(searchInput,orderBy,categoryBy))
     }
 
     const fetchMoreHandler = () => {
-      dispatch(fetchingMoreData(numberToAdd,moreSearchInput))
+      dispatch(fetchingMoreData(numberToAdd,moreSearchInput,categoryBy))
       setNumberToAdd((prev)=>prev+3)
     }
     const orderByHandler = (e) => {
       setOrderBy(e.target.value);
+    }
+    const categoryByHandler = (e) => {
+      if(e.target.value==='all'){
+        setCategoryBy('')  
+      } else {
+      setCategoryBy( `+subject:${e.target.value}`);}
+      
     }
 
     // useEffect(()=>{
@@ -43,7 +51,7 @@ const MainPage = () => {
     //     return;
     // },[dispatch]);
     
-    // console.log(list)
+    console.log(categoryBy)
     // console.log(moreData)
 
   return (
@@ -69,7 +77,22 @@ const MainPage = () => {
               <option value="relevance">Relevance</option>
               <option value="newest">Newest</option>
             </select>
-          </div>
+    </div>
+    <div>
+            <select
+              onChange={categoryByHandler}
+              id="category"
+              name="category"
+            >
+              <option value="all">All</option>
+              <option value="art">Art</option>
+              <option value="biography">Biography</option>
+              <option value="computers">Computers</option>
+              <option value="history">History</option>
+              <option value="medical">Medical</option>
+              <option value="poetry">Poetry</option>
+            </select>
+    </div>
     <BookList onFetchMoreHandler={fetchMoreHandler}/>
     </>
   )

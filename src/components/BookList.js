@@ -30,9 +30,9 @@ const BookList = (props) => {
     <button onClick={props.onFetchMoreHandler}>click to fetch 3 more</button>
     </>
     }
-    {notValiddd && <h4>There are no users!</h4> }
+    {notValiddd && <h4>There are no books! Try again</h4> }
     {notFinished && <h4>Loading the data</h4>}
-    {notYetFinished && <h4>Pending NOT null</h4>}
+    {notYetFinished && <h4>Loading the data</h4>}
     </>
   )
 }

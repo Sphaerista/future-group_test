@@ -1,12 +1,12 @@
 import { dataActions } from "./data-action";
 
-export const fetchingData = (searchInput,orderBy) => {
+export const fetchingData = (searchInput,orderBy,categoryBy) => {
     
     return async (dispatch) => {
         dispatch(dataActions.pendingRequest('pending'))
         const fetchData = async () => {
             const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=0`
+                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=0`
             );
 
             if(!response.ok){
@@ -14,7 +14,7 @@ export const fetchingData = (searchInput,orderBy) => {
             }
 
             const data = await response.json()
-            // console.log("data:::",data);
+            console.log("data:::",data);
             const mappedArray =  data.items.map((item)=>{
                 const newObj = {
                     id: item?.id,
@@ -30,14 +30,15 @@ export const fetchingData = (searchInput,orderBy) => {
             // console.log(mappedArray)
             return [mappedArray,data.totalItems];
         };
-
+        
         try {
             const fetchedData = await fetchData();
-            // console.log(fetchedData[0])
+            console.log(fetchedData[0])
             dispatch(dataActions.fetchBooks(fetchedData[0]));
             dispatch(dataActions.fetchTotalItems(fetchedData[1]));
             dispatch(dataActions.finishedRequest('success'))
         } catch (e){
+            dispatch(dataActions.finishedRequest('success'))    
             console.log(e);
         }
     };
@@ -49,7 +50,6 @@ export const fetchingBook = (bookId) => {
         dispatch(dataActions.pendingRequest('pending'))
         const fetchBook = async () => {
             const response = await fetch(
-                // add dynamic search in q=... as im my api
                 `https://www.googleapis.com/books/v1/volumes/${bookId}`
             );
 
@@ -72,14 +72,14 @@ export const fetchingBook = (bookId) => {
     };
 };
 
-export const fetchingMoreData = (numberToAdd,searchInput) => {
+export const fetchingMoreData = (numberToAdd,searchInput,categoryBy) => {
     
     return async (dispatch) => {
-        // dispatch(dataActions.pendingRequest('pending'))
+        // dispatch(dataActions.pendingRequest('custom pending for each fetch more'))
         const fetchMoreBooks = async () => {
             const response = await fetch(
                 // add dynamic search in q=... as im my api
-                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=${numberToAdd}`
+                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=${numberToAdd}`
             );
 
             if(!response.ok){

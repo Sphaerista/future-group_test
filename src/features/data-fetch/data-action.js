@@ -26,12 +26,7 @@ const dataSlice = createSlice({
             state.book = action.payload;
         },
         fetchMoreBooks(state, action){
-            // if(action.payload==='clear'){
-            //     state.moreBooks = [];
-            // } else {
                 state.booksList = [...state.booksList, ...action.payload]
-            // state.moreBooks = [...state.moreBooks,...action.payload];
-        // }
         }
     },
 })
