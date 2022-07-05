@@ -5,30 +5,26 @@ import BookItem from '../router/BookItem'
 
 const BookList = (props) => {
     const dispatch = useDispatch()
-    let list = props.list.items
-    const moreData=props.moreData
-   
+    const list = useSelector(state => state.fetchData.booksList)
+    const totalItems = useSelector(state => state.fetchData.totalItems)
     const requestStatus = useSelector((state)=> state.fetchData.status)
     
-    if(moreData.length>0){
-      list=[...list,...moreData]
-      console.log(list,moreData)
-    }
-
       // checking list existence
   const validdd = list?.length > 0 && requestStatus==='success'
   const notValiddd = list?.length < 1 && requestStatus==='success'
   const notFinished = list?.length < 1 && requestStatus==='pending'
   const notYetFinished = list?.length > 0 && requestStatus==='pending'
 
+  console.log(list)
+
   return (
     <>
     <div>BookList</div>
     {validdd && 
     <>
-    <div>total books found: {props.list.totalItems}</div>
-    {list.map((data)=>{
-        return <BookItem key={data.etag} id={data.id} title={data.volumeInfo.title} etag={data.etag} selfLink={data.selfLink}  />;
+    <div>total books found: {totalItems}</div>
+    {list?.map((data)=>{
+        return <BookItem key={data?.etag} id={data?.id} title={data?.title} etag={data?.etag} categories={data?.categories} authors={data?.authors}   />;
     })}
     <h4>finished!</h4>
     <button onClick={props.onFetchMoreHandler}>click to fetch 3 more</button>

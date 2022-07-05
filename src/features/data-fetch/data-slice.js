@@ -6,7 +6,6 @@ export const fetchingData = (searchInput,orderBy) => {
         dispatch(dataActions.pendingRequest('pending'))
         const fetchData = async () => {
             const response = await fetch(
-                // add dynamic search in q=... as im my api
                 `https://www.googleapis.com/books/v1/volumes?q=${searchInput}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=0`
             );
 
@@ -15,13 +14,28 @@ export const fetchingData = (searchInput,orderBy) => {
             }
 
             const data = await response.json()
-
-            return data;
+            // console.log("data:::",data);
+            const mappedArray =  data.items.map((item)=>{
+                const newObj = {
+                    id: item?.id,
+                    etag: item?.etag,
+                    title: item?.volumeInfo?.title,
+                    authors: item?.volumeInfo?.authors,
+                    piblishedDate: item?.volumeInfo?.publishedDate,
+                    categories: item?.volumeInfo?.categories,
+                    imageLink: item?.volumeInfo?.imageLinks?.thumbnail,
+                }
+                return newObj
+            })
+            // console.log(mappedArray)
+            return [mappedArray,data.totalItems];
         };
 
         try {
             const fetchedData = await fetchData();
-            dispatch(dataActions.fetchBooks(fetchedData));
+            // console.log(fetchedData[0])
+            dispatch(dataActions.fetchBooks(fetchedData[0]));
+            dispatch(dataActions.fetchTotalItems(fetchedData[1]));
             dispatch(dataActions.finishedRequest('success'))
         } catch (e){
             console.log(e);
@@ -61,7 +75,7 @@ export const fetchingBook = (bookId) => {
 export const fetchingMoreData = (numberToAdd,searchInput) => {
     
     return async (dispatch) => {
-        dispatch(dataActions.pendingRequest('pending'))
+        // dispatch(dataActions.pendingRequest('pending'))
         const fetchMoreBooks = async () => {
             const response = await fetch(
                 // add dynamic search in q=... as im my api
@@ -74,12 +88,28 @@ export const fetchingMoreData = (numberToAdd,searchInput) => {
 
             const data = await response.json()
 
-            return data;
+            // console.log("data:::",data);
+            const mappedArray =  data.items.map((item)=>{
+                const newObj = {
+                    id: item?.id,
+                    etag: item?.etag,
+                    title: item?.volumeInfo?.title,
+                    authors: item?.volumeInfo?.authors,
+                    piblishedDate: item?.volumeInfo?.publishedDate,
+                    categories: item?.volumeInfo?.categories,
+                    imageLink: item?.volumeInfo?.imageLinks?.thumbnail,
+                }
+                return newObj
+            })
+            // console.log(mappedArray)
+            return mappedArray;
+
+            // return data;
         };
 
         try {
             const fetchedMoreBooks = await fetchMoreBooks();
-            dispatch(dataActions.fetchMoreBooks(fetchedMoreBooks.items));
+            dispatch(dataActions.fetchMoreBooks(fetchedMoreBooks));
             dispatch(dataActions.finishedRequest('success'))
         } catch (e){
             console.log(e);

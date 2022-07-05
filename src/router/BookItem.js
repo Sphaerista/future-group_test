@@ -7,8 +7,10 @@ const BookItem = (props) => {
   return (
     <>
     <h5>BookItem</h5>
-    <div>{props.title}</div>
-    <div>{props.selfLink}</div>
+    <div>Title: {props.title}</div>
+    <div>Category: {props.categories}</div>
+    <div>Authors: {props.authors}</div>
+    <div>{props.imageLink}</div>
     <button onClick={()=>{navigate(`/book/${props.id}`)}}>{props.etag}</button>
     </>
   )

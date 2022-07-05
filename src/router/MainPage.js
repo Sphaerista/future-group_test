@@ -14,19 +14,19 @@ const MainPage = () => {
     const [moreSearchInput, setMoreSearchInput] = useState(searchInput);
     const [orderBy, setOrderBy] = useState('relevance');
     const dispatch = useDispatch()
-    const list = useSelector(state => state.fetchData.books)
-    let moreData = useSelector(state => state.fetchData.moreBooks)
+    // const list = useSelector(state => state.fetchData.books)
+    // const moreData = useSelector(state => state.fetchData.moreBooks)
 
     const inputHandler = (e) => {
       setSearchInput(e.target.value);
     };
     const searchHandler = (e) => {
       e.preventDefault()
-      dispatch(dataActions.fetchMoreBooks('clear'));
+      // dispatch(dataActions.fetchMoreBooks('clear'));
       setMoreSearchInput(searchInput)
       dispatch(fetchingData(searchInput,orderBy))
     }
-    console.log(moreData)
+
     const fetchMoreHandler = () => {
       dispatch(fetchingMoreData(numberToAdd,moreSearchInput))
       setNumberToAdd((prev)=>prev+3)
@@ -70,7 +70,7 @@ const MainPage = () => {
               <option value="newest">Newest</option>
             </select>
           </div>
-    <BookList list={list} moreData={moreData} onFetchMoreHandler={fetchMoreHandler}/>
+    <BookList onFetchMoreHandler={fetchMoreHandler}/>
     </>
   )
 }
