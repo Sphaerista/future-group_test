@@ -1,0 +1,29 @@
+
+.bookItem {
+    margin: 0 auto;
+    padding: .5rem 1rem;
+    background-color: whitesmoke;
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    
+}
+
+.bookItem img {
+    width: auto;
+    margin: 1rem auto;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.bookInfo {
+    margin: 1rem 0;
+}
+
+.bookInfo div {
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+
+.title{
+    font-weight: bold;
+}

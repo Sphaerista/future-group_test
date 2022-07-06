@@ -1,7 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { dataActions } from '../features/data-fetch/data-action'
-import BookItem from '../router/BookItem'
+import BookItem from './BookItem'
+import LoadingSpinner from '../UI/LoadingSpinner'
+import styles from "./BookList.module.css"
 
 const BookList = (props) => {
     const dispatch = useDispatch()
@@ -15,24 +16,24 @@ const BookList = (props) => {
   const notFinished = list?.length < 1 && requestStatus==='pending'
   const notYetFinished = list?.length > 0 && requestStatus==='pending'
 
-  console.log(list)
+  // console.log(list)
 
   return (
     <>
-    <div>BookList</div>
     {validdd && 
     <>
-    <div>total books found: {totalItems}</div>
+    <div className={styles.bookList}>
+    <div className={styles.booksNumber}>Total books found: {totalItems}</div>
     {list?.map((data)=>{
-        return <BookItem key={data?.etag} id={data?.id} title={data?.title} etag={data?.etag} categories={data?.categories} authors={data?.authors}   />;
+        return <BookItem key={data?.etag} id={data?.id} image={data?.imageLink} title={data?.title} etag={data?.etag} categories={data?.categories} authors={data?.authors}   />;
     })}
-    <h4>finished!</h4>
-    <button onClick={props.onFetchMoreHandler}>click to fetch 3 more</button>
+    </div>
+    {totalItems>3 && <button className={styles.fetchMoreBtn} onClick={props.onFetchMoreHandler}>Load more</button>}
     </>
     }
     {notValiddd && <h4>There are no books! Try again</h4> }
-    {notFinished && <h4>Loading the data</h4>}
-    {notYetFinished && <h4>Loading the data</h4>}
+    {notFinished && <LoadingSpinner />}
+    {notYetFinished && <LoadingSpinner />}
     </>
   )
 }

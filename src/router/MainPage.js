@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {fetchingData, fetchingMoreData} from "../features/data-fetch/data-slice";
 import {useDispatch, useSelector} from "react-redux"
 import BookList from '../components/BookList';
-import { dataActions } from '../features/data-fetch/data-action';
+import styles from "./MainPage.module.css"
 
 // avoid recalling data
 let value = true;
@@ -34,12 +34,24 @@ const MainPage = () => {
     }
     const orderByHandler = (e) => {
       setOrderBy(e.target.value);
+      const setOrderNow = e.target.value
+
+      if(searchInput.length>0){
+        setMoreSearchInput(searchInput)
+        dispatch(fetchingData(searchInput,setOrderNow,categoryBy))
+      }
     }
     const categoryByHandler = (e) => {
       if(e.target.value==='all'){
         setCategoryBy('')  
       } else {
       setCategoryBy( `+subject:${e.target.value}`);}
+      const setCategoryNow = `+subject:${e.target.value}`
+
+      if(searchInput.length>0){
+      setMoreSearchInput(searchInput)
+      dispatch(fetchingData(searchInput,orderBy,setCategoryNow))
+    }
       
     }
 
@@ -55,10 +67,11 @@ const MainPage = () => {
     // console.log(moreData)
 
   return (
-    <>
-    <div>MainPage</div>
+    <div className={styles.mainOuter}>
+    <div className={styles.header}>
+    <h2>Search for books</h2>
     <div>
-      <form onSubmit={searchHandler}>
+      <form className={styles.searchForm} onSubmit={searchHandler}>
       <input
             type="search"
             onChange={inputHandler}
@@ -68,7 +81,8 @@ const MainPage = () => {
           <button type='submit' disabled={searchInput.length<1}>Search</button>
       </form>
     </div>
-    <div>
+    <div className={styles.selection}>
+    <div className={styles.byOrder}>Sorted by
             <select
               onChange={orderByHandler}
               id="order"
@@ -78,7 +92,7 @@ const MainPage = () => {
               <option value="newest">Newest</option>
             </select>
     </div>
-    <div>
+    <div className={styles.byCategory}>Categories
             <select
               onChange={categoryByHandler}
               id="category"
@@ -93,8 +107,10 @@ const MainPage = () => {
               <option value="poetry">Poetry</option>
             </select>
     </div>
+    </div>
+    </div>
     <BookList onFetchMoreHandler={fetchMoreHandler}/>
-    </>
+    </div>
   )
 }
 

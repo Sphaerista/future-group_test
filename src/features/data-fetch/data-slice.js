@@ -14,7 +14,7 @@ export const fetchingData = (searchInput,orderBy,categoryBy) => {
             }
 
             const data = await response.json()
-            console.log("data:::",data);
+            // console.log("data:::",data);
             const mappedArray =  data.items.map((item)=>{
                 const newObj = {
                     id: item?.id,
@@ -58,8 +58,19 @@ export const fetchingBook = (bookId) => {
             }
 
             const data = await response.json()
+            // console.log(data)
+            
+            const newObj = {
+                id: data?.id,
+                etag: data?.etag,
+                title: data?.volumeInfo?.title,
+                authors: data?.volumeInfo?.authors,
+                categories: data?.volumeInfo?.categories,
+                imageLink: data?.volumeInfo?.imageLinks?.thumbnail,
+                description: data?.volumeInfo?.description,
 
-            return data;
+            }
+                return newObj
         };
 
         try {

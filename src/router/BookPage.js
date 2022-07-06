@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom"
 import { dataActions } from '../features/data-fetch/data-action';
 import { fetchingBook } from '../features/data-fetch/data-slice';
+import styles from "./BookPage.module.css"
 
 
 const BookPage = () => {
@@ -24,11 +25,17 @@ const BookPage = () => {
 
   console.log(book)
   return (
-    <>
-    <div>BookPage</div>
-    <h1>{book.id}</h1>
-    <h2>{book.volumeInfo?.title}</h2>
-    </>
+    <div className={styles.outer}>
+    <div className={styles.bookItem}>
+    <img src={book.imageLink}/>
+    <div className={styles.bookInfo}>
+    <div className={styles.title}>{book.title}</div>
+    <div>Категория: {book.categories}</div>
+    <div>Автор: {book.authors}</div>
+    <div>{book.description}</div>
+    </div>
+    </div>
+    </div>
   )
 }
 
