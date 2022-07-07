@@ -33,3 +33,40 @@
     justify-content: center;
     margin: 3rem auto;
 }
+
+.backBtn button {
+    padding: .5rem;
+    border: none;
+    width: 100px;
+    height: 50px;
+    color: #ffffff;
+    background: #838f88;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.backBtn button:hover {
+    background: #4c534f;
+}
+
+@media (min-width: 768px) {
+    .bookItem {
+        width: 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .bookItem {
+        width: 80%;
+    }
+}
+
+@media (min-width: 1400px) {
+    .bookItem {
+        width: 70%;
+        justify-content: space-between;
+    }
+}

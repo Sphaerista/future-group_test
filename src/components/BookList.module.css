@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .fetchMoreBtn {
@@ -19,6 +20,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 5px;
+        cursor: pointer;
         transition: 0.2s;
     }
     .fetchMoreBtn:hover {
@@ -26,6 +28,8 @@
         color: black;
     }
 
-.booksNumber {
-    margin-top: .5rem;
+    .booksNumber {
+        margin-top: .5rem;
+        width: 100%;
+        text-align: center;
 }

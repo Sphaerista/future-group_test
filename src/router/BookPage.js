@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { dataActions } from '../features/data-fetch/data-action';
 import { fetchingBook } from '../features/data-fetch/data-slice';
 import LoadingSpinner from '../UI/LoadingSpinner';
@@ -14,6 +14,7 @@ const BookPage = () => {
   const dispatch = useDispatch()
   const book = useSelector(state => state.fetchData.book)
   const params = useParams().id
+  const navigate = useNavigate()
   const requestStatus = useSelector((state)=> state.fetchData.status)
   
   useEffect(()=>{
@@ -44,6 +45,10 @@ const BookPage = () => {
       <div>Категория: {book.categories}</div>
       <div>Автор: {book.authors}</div>
       <div>{book.description}</div>
+      <div className={styles.backBtn}>
+      <button onClick={() => navigate(-1)}>Back</button>
+      </div>
+      
       </div>
       </div>
       </div>}

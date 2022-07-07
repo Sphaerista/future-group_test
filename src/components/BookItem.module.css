@@ -1,11 +1,10 @@
 .bookItem {
-    margin: .5rem 0;
+    margin: .5rem;
     background-color: whitesmoke;
     display: flex;
     /* align-items: center; */
     flex-direction: column;
     width: 90%;
-    
 }
 
 .bookItem img {
@@ -42,6 +41,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+    cursor: pointer;
     transition: 0.2s;
 }
 .btn:hover {
@@ -50,4 +50,25 @@
 
 .title{
     font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .bookItem {
+        width: 45%;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 1200px) {
+    .bookItem {
+        width: 30%;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 1400px) {
+    .bookItem {
+        width: 20%;
+        justify-content: space-between;
+    }
 }
