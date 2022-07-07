@@ -3,6 +3,7 @@ import {fetchingData, fetchingMoreData} from "../features/data-fetch/data-slice"
 import {useDispatch, useSelector} from "react-redux"
 import BookList from '../components/BookList';
 import styles from "./MainPage.module.css"
+import { dataActions } from '../features/data-fetch/data-action';
 
 // avoid recalling data
 let value = true;
@@ -15,21 +16,22 @@ const MainPage = () => {
     const [orderBy, setOrderBy] = useState('relevance');
     const [categoryBy, setCategoryBy] = useState('');
     const dispatch = useDispatch()
-    // const list = useSelector(state => state.fetchData.books)
-    // const moreData = useSelector(state => state.fetchData.moreBooks)
+    const moreBooksURLData = useSelector(state => state.fetchData.moreBooksURLData)
+
+    // dispatch(dataActions.fetchMoreBooksURLData(moreBooksURLData));
 
     const inputHandler = (e) => {
       setSearchInput(e.target.value);
     };
     const searchHandler = (e) => {
       e.preventDefault()
-      // dispatch(dataActions.fetchMoreBooks('clear'));
+      setNumberToAdd(3)
       setMoreSearchInput(searchInput)
       dispatch(fetchingData(searchInput,orderBy,categoryBy))
     }
 
     const fetchMoreHandler = () => {
-      dispatch(fetchingMoreData(numberToAdd,moreSearchInput,categoryBy))
+      dispatch(fetchingMoreData(numberToAdd,moreSearchInput,orderBy,categoryBy))
       setNumberToAdd((prev)=>prev+3)
     }
     const orderByHandler = (e) => {
@@ -37,6 +39,7 @@ const MainPage = () => {
       const setOrderNow = e.target.value
 
       if(searchInput.length>0){
+        setNumberToAdd(3)
         setMoreSearchInput(searchInput)
         dispatch(fetchingData(searchInput,setOrderNow,categoryBy))
       }
@@ -49,22 +52,27 @@ const MainPage = () => {
       const setCategoryNow = `+subject:${e.target.value}`
 
       if(searchInput.length>0){
+      setNumberToAdd(3)
       setMoreSearchInput(searchInput)
       dispatch(fetchingData(searchInput,orderBy,setCategoryNow))
     }
       
     }
-
-    // useEffect(()=>{
-    //     if(value) {
-    //         dispatch(fetchingData())
-    //         value = false
-    //     }
-    //     return;
-    // },[dispatch]);
     
-    console.log(categoryBy)
-    // console.log(moreData)
+    const dataForBackup = [numberToAdd,moreSearchInput,orderBy,categoryBy]
+    useEffect(()=>{
+      if(moreBooksURLData.length>0){
+        setNumberToAdd(moreBooksURLData[0])
+        setMoreSearchInput(moreBooksURLData[1])
+        setOrderBy(moreBooksURLData[2])
+        setCategoryBy(moreBooksURLData[3])
+      }
+  },[]);
+    useEffect(()=>{
+        dispatch(dataActions.fetchMoreBooksURLData(dataForBackup));
+    },[numberToAdd,moreSearchInput,orderBy,categoryBy]);
+    
+    console.log(moreBooksURLData)
 
   return (
     <div className={styles.mainOuter}>

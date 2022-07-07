@@ -27,3 +27,9 @@
 .title{
     font-weight: bold;
 }
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    margin: 3rem auto;
+}

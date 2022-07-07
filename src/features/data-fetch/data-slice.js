@@ -83,14 +83,13 @@ export const fetchingBook = (bookId) => {
     };
 };
 
-export const fetchingMoreData = (numberToAdd,searchInput,categoryBy) => {
+export const fetchingMoreData = (numberToAdd,searchInput,orderBy,categoryBy) => {
     
     return async (dispatch) => {
-        // dispatch(dataActions.pendingRequest('custom pending for each fetch more'))
+        const fetchMoreBooksURL = `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=${numberToAdd}`
         const fetchMoreBooks = async () => {
             const response = await fetch(
-                // add dynamic search in q=... as im my api
-                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=${numberToAdd}`
+                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=${numberToAdd}`
             );
 
             if(!response.ok){
@@ -100,6 +99,7 @@ export const fetchingMoreData = (numberToAdd,searchInput,categoryBy) => {
             const data = await response.json()
 
             // console.log("data:::",data);
+            console.log(fetchMoreBooksURL)
             const mappedArray =  data.items.map((item)=>{
                 const newObj = {
                     id: item?.id,

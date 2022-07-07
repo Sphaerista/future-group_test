@@ -8,6 +8,7 @@ const dataSlice = createSlice({
         status: 'null',
         book: [],
         moreBooks: [],
+        moreBooksURLData: []
     },
     reducers: {
         fetchBooks(state, action){
@@ -27,6 +28,9 @@ const dataSlice = createSlice({
         },
         fetchMoreBooks(state, action){
                 state.booksList = [...state.booksList, ...action.payload]
+        },
+        fetchMoreBooksURLData(state, action){
+            state.moreBooksURLData = action.payload;
         }
     },
 })
