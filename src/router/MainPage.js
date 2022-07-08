@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import {fetchingData, fetchingMoreData} from "../features/data-fetch/data-slice";
 import {useDispatch, useSelector} from "react-redux"
