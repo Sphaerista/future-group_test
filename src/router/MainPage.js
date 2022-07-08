@@ -5,12 +5,9 @@ import BookList from '../components/BookList';
 import styles from "./MainPage.module.css"
 import { dataActions } from '../features/data-fetch/data-action';
 
-// avoid recalling data
-let value = true;
-
 const MainPage = () => {
     
-    const [numberToAdd,setNumberToAdd]= useState(3)
+    const [numberToAdd,setNumberToAdd]= useState(30)
     const [searchInput, setSearchInput] = useState("");
     const [moreSearchInput, setMoreSearchInput] = useState(searchInput);
     const [orderBy, setOrderBy] = useState('relevance');
@@ -18,28 +15,26 @@ const MainPage = () => {
     const dispatch = useDispatch()
     const moreBooksURLData = useSelector(state => state.fetchData.moreBooksURLData)
 
-    // dispatch(dataActions.fetchMoreBooksURLData(moreBooksURLData));
-
     const inputHandler = (e) => {
       setSearchInput(e.target.value);
     };
     const searchHandler = (e) => {
       e.preventDefault()
-      setNumberToAdd(3)
+      setNumberToAdd(30)
       setMoreSearchInput(searchInput)
       dispatch(fetchingData(searchInput,orderBy,categoryBy))
     }
 
     const fetchMoreHandler = () => {
       dispatch(fetchingMoreData(numberToAdd,moreSearchInput,orderBy,categoryBy))
-      setNumberToAdd((prev)=>prev+3)
+      setNumberToAdd((prev)=>prev+30)
     }
     const orderByHandler = (e) => {
       setOrderBy(e.target.value);
       const setOrderNow = e.target.value
 
       if(searchInput.length>0){
-        setNumberToAdd(3)
+        setNumberToAdd(30)
         setMoreSearchInput(searchInput)
         dispatch(fetchingData(searchInput,setOrderNow,categoryBy))
       }
@@ -52,7 +47,7 @@ const MainPage = () => {
       const setCategoryNow = `+subject:${e.target.value}`
 
       if(searchInput.length>0){
-      setNumberToAdd(3)
+      setNumberToAdd(30)
       setMoreSearchInput(searchInput)
       dispatch(fetchingData(searchInput,orderBy,setCategoryNow))
     }
@@ -71,8 +66,6 @@ const MainPage = () => {
     useEffect(()=>{
         dispatch(dataActions.fetchMoreBooksURLData(dataForBackup));
     },[numberToAdd,moreSearchInput,orderBy,categoryBy]);
-    
-    console.log(moreBooksURLData)
 
   return (
     <div className={styles.mainOuter}>

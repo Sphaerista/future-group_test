@@ -1,11 +1,10 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import BookItem from './BookItem'
 import LoadingSpinner from '../UI/LoadingSpinner'
 import styles from "./BookList.module.css"
 
 const BookList = (props) => {
-    const dispatch = useDispatch()
     const list = useSelector(state => state.fetchData.booksList)
     const totalItems = useSelector(state => state.fetchData.totalItems)
     const requestStatus = useSelector((state)=> state.fetchData.status)
@@ -15,8 +14,6 @@ const BookList = (props) => {
   const notValiddd = list?.length < 1 && requestStatus==='success'
   const notFinished = list?.length < 1 && requestStatus==='pending'
   const notYetFinished = list?.length > 0 && requestStatus==='pending'
-
-  // console.log(list)
 
   return (
     <>
@@ -28,7 +25,7 @@ const BookList = (props) => {
         return <BookItem key={data?.etag} id={data?.id} image={data?.imageLink} title={data?.title} etag={data?.etag} categories={data?.categories} authors={data?.authors}   />;
     })}
     </div>
-    {totalItems>3 && <button className={styles.fetchMoreBtn} onClick={props.onFetchMoreHandler}>Load more</button>}
+    {totalItems>30 && <button className={styles.fetchMoreBtn} onClick={props.onFetchMoreHandler}>Load more</button>}
     </>
     }
     {notValiddd && <h4>There are no books! Try again</h4> }

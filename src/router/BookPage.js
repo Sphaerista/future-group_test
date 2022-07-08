@@ -26,8 +26,6 @@ const BookPage = () => {
       return;
   },[dispatch,params]);
 
-  console.log(book)
-
         // checking book existence
         const validdd =  requestStatus==='success'
         const notValiddd = requestStatus==='success'
@@ -48,7 +46,6 @@ const BookPage = () => {
       <div className={styles.backBtn}>
       <button onClick={() => navigate(-1)}>Back</button>
       </div>
-      
       </div>
       </div>
       </div>}

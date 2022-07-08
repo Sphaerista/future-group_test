@@ -6,7 +6,7 @@ export const fetchingData = (searchInput,orderBy,categoryBy) => {
         dispatch(dataActions.pendingRequest('pending'))
         const fetchData = async () => {
             const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=0`
+                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=30&startIndex=0`
             );
 
             if(!response.ok){
@@ -14,7 +14,6 @@ export const fetchingData = (searchInput,orderBy,categoryBy) => {
             }
 
             const data = await response.json()
-            // console.log("data:::",data);
             const mappedArray =  data.items.map((item)=>{
                 const newObj = {
                     id: item?.id,
@@ -27,13 +26,11 @@ export const fetchingData = (searchInput,orderBy,categoryBy) => {
                 }
                 return newObj
             })
-            // console.log(mappedArray)
             return [mappedArray,data.totalItems];
         };
         
         try {
             const fetchedData = await fetchData();
-            console.log(fetchedData[0])
             dispatch(dataActions.fetchBooks(fetchedData[0]));
             dispatch(dataActions.fetchTotalItems(fetchedData[1]));
             dispatch(dataActions.finishedRequest('success'))
@@ -58,8 +55,6 @@ export const fetchingBook = (bookId) => {
             }
 
             const data = await response.json()
-            // console.log(data)
-            
             const newObj = {
                 id: data?.id,
                 etag: data?.etag,
@@ -86,10 +81,9 @@ export const fetchingBook = (bookId) => {
 export const fetchingMoreData = (numberToAdd,searchInput,orderBy,categoryBy) => {
     
     return async (dispatch) => {
-        const fetchMoreBooksURL = `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=${numberToAdd}`
         const fetchMoreBooks = async () => {
             const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=3&startIndex=${numberToAdd}`
+                `https://www.googleapis.com/books/v1/volumes?q=${searchInput}${categoryBy}&orderBy=${orderBy}&key=AIzaSyAbeMRMRrF1839zC8XCLNhal8Y7zh9ShcI&maxResults=30&startIndex=${numberToAdd}`
             );
 
             if(!response.ok){
@@ -97,9 +91,6 @@ export const fetchingMoreData = (numberToAdd,searchInput,orderBy,categoryBy) => 
             }
 
             const data = await response.json()
-
-            // console.log("data:::",data);
-            console.log(fetchMoreBooksURL)
             const mappedArray =  data.items.map((item)=>{
                 const newObj = {
                     id: item?.id,
@@ -112,10 +103,7 @@ export const fetchingMoreData = (numberToAdd,searchInput,orderBy,categoryBy) => 
                 }
                 return newObj
             })
-            // console.log(mappedArray)
             return mappedArray;
-
-            // return data;
         };
 
         try {
