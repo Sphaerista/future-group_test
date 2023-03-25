@@ -1,34 +1,11 @@
 import { AppDispatch } from "../app/store";
 import {
   FetchDataResponse,
-  Item,
   SearchBooksResponse,
   BooksList,
 } from "../models/IDataModels";
 
 import { dataActions } from "./data-action";
-
-// type Item = {
-//   id: string;
-//   etag: string;
-//   volumeInfo: {
-//     title: string;
-//     authors?: string[];
-//     publishedDate: string;
-//     categories: string[];
-//     imageLinks: {
-//       thumbnail: string;
-//     };
-//   };
-// };
-
-// export type SearchBooksResponse = {
-//   kind: string;
-//   totalItems: number;
-//   items: Item[];
-// };
-
-// export type FetchDataResponse = [BooksList[], number];
 
 export const fetchingData = (
   searchInput: string,
