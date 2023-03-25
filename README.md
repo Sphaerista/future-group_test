@@ -2,7 +2,7 @@ link page: https://ornate-mooncake-2224ff.netlify.app/
 
 Simple books searching app (Google Books API):
 
-Redux toolkit was used.
+Typescript and Redux toolkit was used.
 
 Can be built in Docker.
 
